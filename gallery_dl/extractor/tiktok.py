@@ -95,7 +95,7 @@ class TiktokExtractor(Extractor):
             title = title[:150]
             date = datetime.fromtimestamp(
                 int(post_info["createTime"])
-            ).isoformat()
+            )
             user = post_info["author"]["uniqueId"]
             # It's probably obvious but I thought it was worth noting
             # because I got stuck on this for a while: make sure to emit
