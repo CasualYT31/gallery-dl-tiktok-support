@@ -349,7 +349,13 @@ else:
     stderr_write = stderr_write_flush
 
 
-def configure_standard_streams():
+download_stream = None
+
+
+def configure_standard_streams(stream_for_downloads=None):
+    global download_stream
+    download_stream = stream_for_downloads
+
     for name in ("stdout", "stderr", "stdin"):
         stream = getattr(sys, name, None)
         if not stream:
@@ -371,6 +377,8 @@ def configure_standard_streams():
 
 def select():
     """Select a suitable output class"""
+    return StringOutput()
+
     mode = config.get(("output",), "mode")
 
     if mode is None or mode == "auto":
@@ -413,6 +421,24 @@ class NullOutput():
 
     def progress(self, bytes_total, bytes_downloaded, bytes_per_second):
         """Display download progress"""
+
+
+class StringOutput(NullOutput):
+
+    def start(self, path):
+        """Print a message indicating the start of a download"""
+        global download_stream
+        download_stream.write(f"Downloading {path}\n")
+
+    def skip(self, path):
+        """Print a message indicating that a download has been skipped"""
+        global download_stream
+        download_stream.write(f"Skipping {path}\n")
+
+    def success(self, path):
+        """Print a message indicating the completion of a download"""
+        global download_stream
+        download_stream.write(f"Downloaded {path}\n")
 
 
 class PipeOutput(NullOutput):
