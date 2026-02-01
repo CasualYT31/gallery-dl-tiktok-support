@@ -77,7 +77,7 @@ def main(argv=None, replace_stream=None):
         for opts in args.options:
             config.set(*opts)
 
-        output.configure_standard_streams()
+        output.configure_standard_streams(replace_stream)
 
         # signals
         if signals := config.get((), "signals-ignore"):
