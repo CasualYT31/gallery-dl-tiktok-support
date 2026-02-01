@@ -19,10 +19,10 @@ __email__ = "mike_faehrmann@web.de"
 __version__ = version.__version__
 
 
-def main():
+def main(argv=None):
     try:
         parser = option.build_parser()
-        args = parser.parse_args()
+        args = parser.parse_args(argv)
         log = output.initialize_logging(args.loglevel)
 
         # configuration
