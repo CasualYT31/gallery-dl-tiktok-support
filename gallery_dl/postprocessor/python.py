@@ -18,7 +18,9 @@ class PythonPP(PostProcessor):
         PostProcessor.__init__(self, job)
 
         mode = options.get("mode")
-        if mode == "eval" or not mode and options.get("expression"):
+        if mode == "inline" and options.get("function"):
+            self.function = options["function"]
+        elif mode == "eval" or not mode and options.get("expression"):
             self.function = util.compile_expression(options["expression"])
         else:
             spec = options["function"]
