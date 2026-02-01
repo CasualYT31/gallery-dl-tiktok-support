@@ -19,12 +19,21 @@ __email__ = "mike_faehrmann@web.de"
 __version__ = version.__version__
 
 
-def main(argv=None, replace_stream=None):
+def main(argv=None, replace_stream=None, on_metadata=None):
     try:
         parser = option.build_parser()
         args = parser.parse_args(argv)
         log: output.Logger = output.initialize_logging(args.loglevel,
                                                        replace_stream)
+
+        if on_metadata:
+            if not args.postprocessors:
+                args.postprocessors = []
+            args.postprocessors.append({
+                "name": "python",
+                "mode": "inline",
+                "function": on_metadata,
+            })
 
         # configuration
         if args.config_load:
