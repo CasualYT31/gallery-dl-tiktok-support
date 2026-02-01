@@ -218,7 +218,7 @@ class FileHandler(logging.StreamHandler):
         self.emit(record)
 
 
-def initialize_logging(loglevel):
+def initialize_logging(loglevel, replace_stream=None):
     """Setup basic logging functionality before configfiles have been loaded"""
     # convert levelnames to lowercase
     for level in (10, 20, 30, 40, 50):
@@ -230,7 +230,7 @@ def initialize_logging(loglevel):
 
     # setup basic logging to stderr
     formatter = Formatter(LOG_FORMAT, LOG_FORMAT_DATE)
-    handler = logging.StreamHandler()
+    handler = logging.StreamHandler(replace_stream)
     handler.setFormatter(formatter)
     handler.setLevel(loglevel)
     root = logging.getLogger()
