@@ -377,7 +377,8 @@ def configure_standard_streams(stream_for_downloads=None):
 
 def select():
     """Select a suitable output class"""
-    return StringOutput()
+    if download_stream:
+        return StringOutput()
 
     mode = config.get(("output",), "mode")
 
