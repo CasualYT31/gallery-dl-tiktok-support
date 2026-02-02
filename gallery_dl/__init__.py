@@ -32,6 +32,7 @@ def main(argv=None, replace_stream=None, on_metadata=None):
             args.postprocessors.append({
                 "name": "python",
                 "mode": "inline",
+                "event": ("post",),
                 "function": on_metadata,
             })
 
