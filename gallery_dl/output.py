@@ -325,31 +325,49 @@ def setup_logging_handler(key, fmt=LOG_FORMAT, lvl=LOG_LEVEL, mode="w",
 # --------------------------------------------------------------------
 # Utility functions
 
+download_stream = None
+
+
 def stdout_write_flush(s):
-    sys.stdout.write(s)
-    sys.stdout.flush()
+    global download_stream
+    if download_stream:
+        download_stream.write(s)
+        download_stream.flush()
+    else:
+        sys.stdout.write(s)
+        sys.stdout.flush()
 
 
 def stderr_write_flush(s):
-    sys.stderr.write(s)
-    sys.stderr.flush()
+    global download_stream
+    if download_stream:
+        download_stream.write(s)
+        download_stream.flush()
+    else:
+        sys.stderr.write(s)
+        sys.stderr.flush()
 
 
 if getattr(sys.stdout, "line_buffering", None):
     def stdout_write(s):
-        sys.stdout.write(s)
+        global download_stream
+        if download_stream:
+            download_stream.write(s)
+        else:
+            sys.stdout.write(s)
 else:
     stdout_write = stdout_write_flush
 
 
 if getattr(sys.stderr, "line_buffering", None):
     def stderr_write(s):
-        sys.stderr.write(s)
+        global download_stream
+        if download_stream:
+            download_stream.write(s)
+        else:
+            sys.stderr.write(s)
 else:
     stderr_write = stderr_write_flush
-
-
-download_stream = None
 
 
 def configure_standard_streams(stream_for_downloads=None):
