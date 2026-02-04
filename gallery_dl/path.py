@@ -314,6 +314,12 @@ class PathFormat():
         self.realpath = self.realdirectory + filename
         if not self.temppath:
             self.temppath = self.realpath
+        self.kwdict["_paths_"] = {
+            "filename": self.filename,
+            "path": self.path,
+            "realpath": self.realpath,
+            "temppath": self.temppath,
+        }
 
     def generate_path(self, segments):
         if not segments:
