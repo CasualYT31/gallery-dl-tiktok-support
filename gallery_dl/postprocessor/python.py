@@ -42,6 +42,7 @@ class PythonPP(PostProcessor):
             self._archive_register(job)
 
     def run(self, pathfmt):
+        pathfmt.build_path()
         self.function(pathfmt.kwdict)
 
     def run_archive(self, pathfmt):
